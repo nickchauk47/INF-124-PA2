@@ -1,5 +1,5 @@
-CREATE SCHEMA rm_fan_store_db;
-USE rm_fan_store_db;
+-- CREATE SCHEMA rm_fan_store_db;
+-- USE rm_fan_store_db;
 
 DROP TABLE IF EXISTS Products;
 DROP TABLE IF EXISTS Orders;
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS Products (
     color       VARCHAR(20),
     material    VARCHAR(20),
     price       DOUBLE,
-    description VARCHAR(150),
+    description VARCHAR(750),
     imagePath   VARCHAR(50),
     
     

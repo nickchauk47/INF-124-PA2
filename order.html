@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+    <title>Rick and Morty Fan Store</title>
+    <head>
+        <link rel="stylesheet" href="styles2.css">
+        <a href="order.html"><img src="images/cover.png" alt="Cover"></a>
+
+        <div class="tab">
+            <button onclick="window.location.href='index.html'">Home</button>
+            <button onclick="window.location.href='shop.html'">Shop</button>
+            <button onclick="window.location.href='order.html'">Order</button>
+            <button onclick="window.location.href='about.html'">About Us</button>
+        </div>
+
+        <script>
+
+            function validateForm() {
+
+                //alert("HERE!!!");
+                var invFlag = 0;
+                var invInfo = "Invalid information: ";
+                var phoneRE = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+                var phoneNum = document.forms["orderForm"]["phoneNumber"].value;
+                if (!phoneRE.test(phoneNum.toString())) {
+                    //alert("Invalid Phone");
+                    invInfo += "Phone Number. ";
+                    invFlag += 1;
+                }
+                var cardNum = document.forms["orderForm"]["cardNumber"].value;
+                if (!validateCardNumber(cardNum)) {
+                    //alert("Invalid Card");
+                    invInfo += "Card Number. ";
+                    invFlag += 1;
+                }
+                var cardMonth = document.forms["orderForm"]["exMonth"].value;
+                var cardYear = document.forms["orderForm"]["exYear"].value;
+                var D = new Date();
+                if ((D.getFullYear() > parseInt(cardYear)) ||
+                    ((parseInt(cardMonth) <= (D.getMonth()+1)) && (parseInt(cardYear) <= D.getFullYear()))
+                   ) {
+                    //alert("Invalid Exp");
+                    invInfo += "Card Expiration Date. ";
+                    invFlag = 1;
+                }
+                //alert("HERE");
+                var cardCCV = document.forms["orderForm"]["ccv"].value;
+                //alert(cardCCV);
+                if (cardCCV.length != 3) {
+                    //alert("Invalid CCV");
+                    invInfo += "Card CCV. ";
+                    invFlag = 1;
+                }
+                //alert("Finally!");
+
+                if (invFlag > 0) {
+                    alert(invInfo);
+                    return false;
+                }
+
+            }
+
+            function validateCardNumber(number) {
+                var regex = new RegExp("^[0-9]{16}$");
+                return regex.test(number);
+
+                //return luhn(number);
+            }
+
+            function luhn(val) {
+                var sum = 0;
+                for (var i = 0; i < val.length; i++) {
+                    var intVal = parseInt(val.substr(i, 1));
+                    if (i % 2 == 0) {
+                        intVal *= 2;
+                        if (intVal > 9) {
+                            intVal = 1 + (intVal % 10);
+                        }
+                    }
+                    sum += intVal;
+                }
+                return (sum % 10) == 0;
+            }
+
+            function sendMail() {
+
+                //Subject and Body
+                var subject = "Rick and Morty Fan Store Reciept";
+                var message = "Thank you for ordering with us!\r\n\r\n\r\n Your order:\r\n\r\n";
+
+                //Getting what items were orderd
+                var items = ["Morty T-Shirt","Rick T-Shirt","Jerry T-Shirt","Beth T-Shirt","Summer T-Shirt","Mr. Meeseeks T-Shirt","Mr. PoopyButthole T-Shirt","Mr. Meeseeks Onsie","Morty Plush","Rick and Morty Poster","Portal Gun","Pickle Rick"];
+                var cost = 0;
+                var itemsCount = 0;
+                for (var i in items) {
+                    if (document.forms["orderForm"][items[i]].value > 0) {
+                        message += "" + document.forms["orderForm"][items[i]].value + "  " + items[i] + "\r\n";
+                        itemsCount += parseInt(document.forms["orderForm"][items[i]].value);
+                    }
+                }
+                if (itemsCount <= 0) {
+                    alert("You didn't order anything!");
+                    return false;
+                }
+                message += "\r\n"
+                    + "Total: $" + (itemsCount * 15) +".00 USD\r\n\r\n\r\n";
+
+                // Adding form information (personal, shipping, payment)
+                //   Shipping
+                message += "Shipping Info:\r\n" + document.forms["orderForm"]["firstName"].value + " " + document.forms["orderForm"]["lastName"].value + "\r\n"
+                    + document.forms["orderForm"]["street"].value + "\r\n";
+                if (document.forms["orderForm"]["addr2"].value != "")
+                    message += document.forms["orderForm"]["addr2"].value + "\r\n";
+                message += document.forms["orderForm"]["city"].value + ", " + document.forms["orderForm"]["state"].value + " " + document.forms["orderForm"]["zip"].value + "\r\n";
+                message += "Shipping Method Selected - " + document.forms["orderForm"]["shippingMethod"].value + "\r\n\r\n";
+                //   Payment
+                message += "Payment Info:\r\n";
+                message += document.forms["orderForm"]["cardName"].value + "\r\n"
+                    + "************" + ("" + document.forms["orderForm"]["cardNumber"].value).substr(("" + document.forms["orderForm"]["cardNumber"].value).length - 4) + "\r\n\r\n";
+                //   Phone
+                message += "We'll contact you at " + document.forms["orderForm"]["phoneNumber"].value + " if there are any issues with your order.";
+
+                //alert("Ready to mail");
+                document.location.href = "mailto:?subject="
+                    + encodeURIComponent(subject)
+                    + "&body=" + encodeURIComponent(message);
+            }
+
+        </script>
+
+    </head>
+
+
+    <form name="orderForm" method="post" action="javascript: sendMail();">
+    <!-- Select Items -->
+    <h3>Select items to purchase</h3>
+    <table class="table1" width="100%">
+        <tr>
+            <td><img src="images/morty.png">
+                Morty Tee<br>
+                Cost: $15.00<br>Quantity:
+                <input type="number" name="Morty T-Shirt" placeholder=0 style="width: 3em" value=0><br>
+            </td>
+            <td><img src="images/rick.png">
+                Rick Tee<br>
+                Cost: $15.00<br>Quantity:
+                <input type="number" name="Rick T-Shirt" placeholder=0 style="width: 3em" value=0><br>
+            </td>
+            <td><img src="images/jerry.png">
+                Jerry Tee<br>
+                Cost: $15.00<br>Quantity:
+                <input type="number" name="Jerry T-Shirt" placeholder=0 style="width: 3em" value=0><br>
+            </td>
+            <td><img src="images/beth.png">
+                Beth Tee<br>
+                Cost: $15.00<br>Quantity:
+                <input type="number" name="Beth T-Shirt" placeholder=0 style="width: 3em" value=0><br>
+            </td>
+        </tr>
+        <tr>
+            <td><img src="images/summer.png">
+                Summer Tee<br>
+                Cost: $15.00<br>Quantity:
+                <input type="number" name="Summer T-Shirt" placeholder=0 style="width: 3em" value=0><br>
+            </td>
+            <td><img src="images/meeseeks.png">
+                Mr. Meeseeks Tee<br>
+                Cost: $15.00<br>Quantity:
+                <input type="number" name="Mr. Meeseeks T-Shirt" placeholder=0 style="width: 3em" value=0><br>
+            </td>
+            <td><img src="images/poopy.png">
+                Mr. PoopyButthole Tee<br>
+                Cost: $15.00<br>Quantity:
+                <input type="number" name="Mr. PoopyButthole T-Shirt" placeholder=0 style="width: 3em" value=0><br>
+            </td>
+            <td><img src="images/meeseeksonesie.jpg">
+                Mr. Meeseeks Onsie<br>
+                Cost: $15.00<br>Quantity:
+                <input type="number" name="Mr. Meeseeks Onsie" placeholder=0 style="width: 3em" value=0><br>
+            </td>
+        </tr>
+        <tr>
+            <td><img src="images/mortyplush.jpg">
+                Morty Plush<br>
+                Cost: $15.00<br>Quantity:
+                <input type="number" name="Morty Plush" placeholder=0 style="width: 3em" value=0><br>
+            </td>
+            <td><img src="images/poster.png">
+                Rick and Morty Poster<br>
+                Cost: $15.00<br>Quantity:
+                <input type="number" name="Rick and Morty Poster" placeholder=0 style="width: 3em" value=0><br>
+            </td>
+            <td><img src="images/portalgun.jpg">
+                Portal Gun<br>
+                Cost: $15.00<br>Quantity:
+                <input type="number" name="Portal Gun" placeholder=0 style="width: 3em" value=0><br>
+            </td>
+            <td><img src="images/picklerick.jpg">
+                Pickle Rick Sticker<br>
+                Cost: $15.00<br>Quantity:
+                <input type="number" name="Pickle Rick" placeholder=0 style="width: 3em" value=0><br>
+            </td>
+        </tr>
+
+    </table>
+
+
+    <table class="table2" width="750" align="left">
+        <tr>
+            <td>
+            <h3>Personal Information</h3>
+                <label>First Name:</label><br>
+                <input type="text" name="firstName" value="" required><br>
+                <label>Last Name:</label><br>
+                <input type="text" name="lastName" value="" required><br>
+                <label>Phone Number:</label><br>
+                <input type="tel"  name="phoneNumber" value="" required><br>
+                <br><br>
+            </td>
+            <td>
+            <h3>Shipping Information</h3>
+                <label>Address Line 1:</label><br>
+                <input type="text" name="street" placeholder="Street Address" value="" required><br>
+                <label>Address Line 2:</label><br>
+                <input type="text" name="addr2"
+                       placeholder="Apt, suite, unit, building, floor, etc." value=""><br>
+                <label>City:</label><br>
+                <input type="text" name="city" value="" required><br>
+                <label>State:</label><br>
+                <select name="state" required>
+                    <!-- LOL -->
+                    <option value=""></option>
+                    <option value="AL">AL</option>
+                    <option value="AK">AK</option>
+                    <option value="AR">AR</option>
+                    <option value="AZ">AZ</option>
+                    <option value="CA">CA</option>
+                    <option value="CO">CO</option>
+                    <option value="CT">CT</option>
+                    <option value="DC">DC</option>
+                    <option value="DE">DE</option>
+                    <option value="FL">FL</option>
+                    <option value="GA">GA</option>
+                    <option value="HI">HI</option>
+                    <option value="IA">IA</option>
+                    <option value="ID">ID</option>
+                    <option value="IL">IL</option>
+                    <option value="IN">IN</option>
+                    <option value="KS">KS</option>
+                    <option value="KY">KY</option>
+                    <option value="LA">LA</option>
+                    <option value="MA">MA</option>
+                    <option value="MD">MD</option>
+                    <option value="ME">ME</option>
+                    <option value="MI">MI</option>
+                    <option value="MN">MN</option>
+                    <option value="MO">MO</option>
+                    <option value="MS">MS</option>
+                    <option value="MT">MT</option>
+                    <option value="NC">NC</option>
+                    <option value="NE">NE</option>
+                    <option value="NH">NH</option>
+                    <option value="NJ">NJ</option>
+                    <option value="NM">NM</option>
+                    <option value="NV">NV</option>
+                    <option value="NY">NY</option>
+                    <option value="ND">ND</option>
+                    <option value="OH">OH</option>
+                    <option value="OK">OK</option>
+                    <option value="OR">OR</option>
+                    <option value="PA">PA</option>
+                    <option value="RI">RI</option>
+                    <option value="SC">SC</option>
+                    <option value="SD">SD</option>
+                    <option value="TN">TN</option>
+                    <option value="TX">TX</option>
+                    <option value="UT">UT</option>
+                    <option value="VT">VT</option>
+                    <option value="VA">VA</option>
+                    <option value="WA">WA</option>
+                    <option value="WI">WI</option>
+                    <option value="WV">WV</option>
+                    <option value="WY">WY</option>
+                    <!-- LMAO -->
+                </select><br>
+                <label>Zip:</label><br>
+                <input type="number" name="zip" value="" required><br>
+                <br>
+                <label>Shipping Method</label><br>
+                1 Day
+                <input type="radio" name="shippingMethod" value="1 Day" required>
+                    <br>2 Days
+                <input type="radio" name="shippingMethod" value="2 Days">
+                    <br>6 Days
+                <input type="radio" name="shippingMethod" value="6 Days">
+                    <br>
+                <br><br>
+            </td>
+            <td>
+            <h3>Payment Information</h3>
+                <label>Full name on card:</label>
+                <input type="text" name="cardName" required><br>
+                <label>Card Number:</label><br>
+                <input type="number" name="cardNumber" required><br>
+                <label>Expiration:</label><br>
+                <select id="exMonth" title="select a month">
+                <option value="0">Month</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+
+                <select id="exYear" title="select a year">
+                <option value="0">Year</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
+                </select><br>
+                <label>CCV:</label><br>
+                <input type="number" name="ccv" required>
+            </td>
+        </tr>
+
+    </table>
+
+    <input class="button" type="submit" name="submit" value="submit" onclick="return validateForm()">
+    </form>
+
+</html>
