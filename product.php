@@ -22,7 +22,7 @@
     echo "<!DOCTYPE html><html>";
 
     // Top Bar
-    include "../resources/top.html";
+    include "resources/top.html";
     
     echo "<body>";
     echo "<h1>RICK AND MORTY FAN STORE</h1>";
