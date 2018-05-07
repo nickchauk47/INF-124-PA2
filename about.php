@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="resources/styles2.css">
-        <a href="index.html"><img src="images/cover.png" alt="Cover"></a>
-
-        <div class="tab">
-            <button onclick="window.location.href='index.html'">Home</button>
-            <button onclick="window.location.href='shop.html'">Shop</button>
-            <button onclick="window.location.href='order.html'">Order</button>
-            <button onclick="window.location.href='about.html'">About Us</button>
-        </div>
-    </head>
+    <?php
+        
+        include "resources/top.php";   
+    
+    ?>
 
 <h1>ABOUT US</h1>
 

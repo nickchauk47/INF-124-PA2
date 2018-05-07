@@ -1,4 +1,3 @@
-
 DELETE FROM Products;
 
 INSERT INTO Products
@@ -27,7 +26,7 @@ VALUES
 "images/poopy.png"),
 (8,"Mr. Meeseeks Onsie","Light Blue","Cotton",15,
 "A race of blue humanoid creatures who all share the same name and personality. The Meeseeks are created from a metal box called a Meeseeks Box, and once they appear, whoever summoned them must give them a single, simple task for them to fulfill, after which they disappear in a cloud of smoke.",
-"images/meeseeksonsie.jpg"),
+"images/meeseeksonesie.jpg"),
 (9,"Morty Plush","Yellow, Blue, Brown","Cotton",15,
 "Rick's good-hearted but easily distressed 14-year-old grandson who is frequently dragged into Rick's misadventures. He is often reluctant to follow Rick's plans, and he often ends up traumatized by the unorthodox methods Rick uses to 'fix' situations.",
 "images/mortyplush.jpg"),
@@ -36,7 +35,7 @@ VALUES
 "images/poster.png"),
 (11,"Rick and Morty Portal Gun","Light Grey, Green","Plastic",15,
 "Rick's Portal Gun will allow you to travel anywhere in the world in any dimension.",
-"images/poster.png"),
+"images/portalgun.jpg"),
 (12,"Pick Rick Sticker","Yellow, Green","Paper",15,
 "So pretty much, Rick turned himself into a pickle. It's Pickle Rick!!!",
 "images/picklerick.jpg");
