@@ -1,5 +1,7 @@
 <?php
 
+ob_start();
+
 // Connect to DB
 $db = parse_ini_file("dbInfo.ini");
 $connection = new mysqli($db['host'], $db['user'], $db['pass'], $db['name']);
@@ -39,20 +41,20 @@ foreach ($bought as $key => $val) {
     if ($firstCheck == 0) {
         $pid = (int) $key;
         $quant = (int) $val;
-        
+
         $res = $connection->query("SELECT * FROM Products WHERE pid=$key");
         $total += ((int) ($res->fetch_object()->price))*$quant;
-        
+
         $firstCheck++;
         $orderInFirst->execute();
     } else {
         $oid = $connection->insert_id;
         $pid = $key;
         $quant = $val;
-        
+
         $res = $connection->query("SELECT * FROM Products WHERE pid=$key");
         $total += ((int) ($res->fetch_object()->price))*$quant;
-        
+
         $orderInOther->execute();
     }
 }
@@ -85,4 +87,5 @@ $connection->close();
 
 header("Location: ../confirmation.php?order=".$orderid,TRUE,303);
 
+ob_end_flush();
 ?>

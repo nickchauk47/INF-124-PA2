@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<taxdata>
+
+<tax>
+  <state>CA</state>
+  <rate>0.05</rate>
+</tax>
+
+<tax>
+  <state>AZ</state>
+  <rate>0.10</rate>
+</tax>
+
+</taxdata>

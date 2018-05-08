@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SHIPPINGRATE>
+    <SHIPPING>
+        <TITLE>1 Day</TITLE>
+        <RATE>$13.00</RATE>
+    </SHIPPING>
+    <SHIPPING>
+        <TITLE>2 Days</TITLE>
+        <RATE>$10.00</RATE>
+    </SHIPPING>
+    <SHIPPING>
+        <TITLE>3 Days</TITLE>
+        <RATE>$5.00</RATE>
+        </SHIPPING>
+</SHIPPINGRATE>

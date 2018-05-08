@@ -18,13 +18,89 @@
     // Top Bar
     include "resources/top.php";
 
-    echo "";
+    echo "<style>
+table,th,td {
+  border : 1px solid black;
+  border-collapse: collapse;
+}
+th,td {
+  padding: 5px;
+}
+</style>";
 
-    echo "<script src='resources/helper.js'></script>";
+    echo "<script type='text/javascript' src='resources/helper.js'></script>";
 
     echo "<script src='https://code.jquery.com/jquery-1.12.4.js'></script>
 	<script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
 <script src='script.js'></script>";
+
+echo '<script>
+function validateForm() {
+
+    //Getting what items were orderd
+    var items = ["1","2","3","4","5","6","7","8","9","10","11","12"];
+    var cost = 0;
+    var itemsCount = 0;
+    for (var i in items) {
+        if (document.forms["orderForm"][items[i]].value > 0) {
+            itemsCount += parseInt(document.forms["orderForm"][items[i]].value);
+        }
+    }
+    if (itemsCount <= 0) {
+        alert("You didn\'t order anything!");
+        return false;
+    }
+
+    //alert("HERE!!!");
+    var invFlag = 0;
+    var invInfo = "Invalid information: ";
+    var phoneRE = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+    var phoneNum = window.document.forms["orderForm"]["phoneNumber"].value;
+    if (!phoneRE.test(phoneNum.toString())) {
+        //alert("Invalid Phone");
+        invInfo += "Phone Number. ";
+        invFlag += 1;
+    }
+    var cardNum = document.forms["orderForm"]["cardNumber"].value;
+    if (!validateCardNumber(cardNum)) {
+        //alert("Invalid Card");
+        invInfo += "Card Number. ";
+        invFlag += 1;
+    }
+    var cardMonth = document.forms["orderForm"]["exMonth"].value;
+    var cardYear = document.forms["orderForm"]["exYear"].value;
+    var D = new Date();
+    if ((D.getFullYear() > parseInt(cardYear)) ||
+        ((parseInt(cardMonth) <= (D.getMonth()+1)) && (parseInt(cardYear) <= D.getFullYear()))
+       ) {
+        //alert("Invalid Exp");
+        invInfo += "Card Expiration Date. ";
+        invFlag = 1;
+    }
+    //alert("HERE");
+    var cardCCV = document.forms["orderForm"]["ccv"].value;
+    //alert(cardCCV);
+    if (cardCCV.length != 3) {
+        //alert("Invalid CCV");
+        invInfo += "Card CCV. ";
+        invFlag = 1;
+    }
+    //alert("Finally!");
+
+    if (invFlag > 0) {
+        alert(invInfo);
+        return false;
+    }
+
+}
+
+function validateCardNumber(number) {
+    var regex = new RegExp("^[0-9]{16}$");
+    return regex.test(number);
+
+    //return luhn(number);
+}
+</script>';
 
     echo '
     <form name="orderForm" method="post" action="resources/submitOrder.php">
@@ -72,7 +148,7 @@
                 <label>City:</label><br>
                 <input type="text" name="city" value="" required><br>
                 <label>State:</label><br>
-	              <input id="birds"><br>
+	              <input id="birds" type="text" name="state" required><br>
                 <label>Zip:</label><br>
                 <input type="number" name="zip" value="" required><br>
                 <br>
@@ -135,6 +211,33 @@
     <input class="button" type="submit" name="submit" value="submit" onclick="return validateForm()">
     </form>
     ';
+
+    echo "<br><button class='button' type='button' onclick='loadDoc()'>SHOW SHIPPING RATES</button><br><br><table id='shippingRate'></table>";
+
+    echo "<script>function loadDoc() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          myFunction(this);
+        }
+      };
+      xhttp.open('GET', 'resources/shipping.xml', true);
+      xhttp.send();
+    }
+    function myFunction(xml) {
+      var i;
+      var xmlDoc = xml.responseXML;
+      var table='<tr><th>Type</th><th>Cost</th></tr>';
+      var x = xmlDoc.getElementsByTagName('SHIPPING');
+      for (i = 0; i <x.length; i++) {
+        table += '<tr><td>' +
+        x[i].getElementsByTagName('TITLE')[0].childNodes[0].nodeValue +
+        '</td><td>' +
+        x[i].getElementsByTagName('RATE')[0].childNodes[0].nodeValue +
+        '</td></tr>';
+      }
+      document.getElementById('shippingRate').innerHTML = table;
+    }</script>";
 
     include 'resources/bottom.php';
 

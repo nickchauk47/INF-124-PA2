@@ -41,9 +41,9 @@ echo "State: ".$infoRow["addrState"]."<br>";
 echo "Shipping Method: ".$infoRow["shippingMethod"]." day(s) shipping<br>";
 
 echo "Name on Card: ".$infoRow["nameOnCard"]."<br>";
-echo "Card: ************".(substr($infoRow["cardNumber"], -4))."<br>";
-echo "</body><br><br><br><br><br><br><br>";
+echo "Card: ************".(substr($infoRow["cardNumber"], -4))."<br></body><br>";
 
+echo "<br><br><br><br><br><br>";
 echo "<button class='centerbutton' onclick=window.location.href='shop.php'>Keep Shopping for More!</button>";
 
 include "resources/bottom.php"

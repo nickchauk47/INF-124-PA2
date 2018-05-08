@@ -138,6 +138,31 @@ function showResult(str){
   xmlhttp.send();
 }
 
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      myFunction(this);
+    }
+  };
+  xhttp.open("GET", "shipping.xml", true);
+  xhttp.send();
+}
+function myFunction(xml) {
+  var i;
+  var xmlDoc = xml.responseXML;
+  var table="<tr><th>Type</th><th>Cost</th></tr>";
+  var x = xmlDoc.getElementsByTagName("shipping");
+  for (i = 0; i <x.length; i++) {
+    table += "<tr><td>" +
+    x[i].getElementsByTagName("type")[0].childNodes[0].nodeValue +
+    "</td><td>" +
+    x[i].getElementsByTagName("cost")[0].childNodes[0].nodeValue +
+    "</td></tr>";
+  }
+  document.getElementById("shippingRate").innerHTML = table;
+}
+
 $( function() {
 		function log( message ) {
 			$( "<div/>" ).text( message ).prependTo( "#log" );
