@@ -26,6 +26,14 @@ table,th,td {
 th,td {
   padding: 5px;
 }
+ul.ui-autocomplete {
+    background:white;
+    width: 50px;
+    list-style: none;
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
 </style>";
 
     echo "<script type='text/javascript' src='resources/helper.js'></script>";
