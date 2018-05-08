@@ -31,7 +31,7 @@
             echo "<tr>";
         }
         $newRowCount++;
-        echo "<td><a href=".$row['imagePath']."><img src=".$row['imagePath'].'><br>'.$row['name'].
+        echo "<td><a href=product.php?productid=".$row['pid']."><img src=".$row['imagePath'].'><br>'.$row['name'].
             '</a><br>Price: '.$row['price'].'<br>Color: '.$row['color'].'<br>Material: '.$row['material']."</td>";
         if ($newRowCount == 4) {
             echo "</tr>";
