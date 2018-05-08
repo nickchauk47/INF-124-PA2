@@ -59,9 +59,9 @@ CREATE TABLE IF NOT EXISTS OrderInfo (
     
     -- Payment Info
     nameOnCard      VARCHAR(50),
-    cardNumber      INT,
-    expMonth        INT,
-    expYear         INT,
+    cardNumber      BIGINT,
+    expMonth        CHAR(2),
+    expYear         CHAR(4),
     cardCCV         INT,
     
     PRIMARY KEY (orderid),

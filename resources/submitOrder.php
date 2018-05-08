@@ -21,7 +21,7 @@ echo 3;
 // MySQL prepare statements binding
 $orderInFirst->bind_param("ii", $pid, $quant);
 $orderInOther->bind_param("iii", $oid, $pid, $quant);
-$orderInfoIn->bind_param("idsssssssssisiiii", $orderid, $totalCost, $orderDateTime, $nameFirst, $nameLast, $phoneNumber, $addrStreet, $addrStreet2, $addrCity, $addrState, $addrZip, $shippingMethod, $nameOnCard, $cardNumber, $expMonth, $expYear, $cardCCV);
+$orderInfoIn->bind_param("idsssssssssisissi", $orderid, $totalCost, $orderDateTime, $nameFirst, $nameLast, $phoneNumber, $addrStreet, $addrStreet2, $addrCity, $addrState, $addrZip, $shippingMethod, $nameOnCard, $cardNumber, $expMonth, $expYear, $cardCCV);
 echo 4;
 
 // See what they bought
@@ -39,14 +39,20 @@ foreach ($bought as $key => $val) {
     if ($firstCheck == 0) {
         $pid = (int) $key;
         $quant = (int) $val;
-        $total += (int) $connection->query("SELECT price FROM Products WHERE pid=$key");
+        
+        $res = $connection->query("SELECT * FROM Products WHERE pid=$key");
+        $total += ((int) ($res->fetch_object()->price))*$quant;
+        
         $firstCheck++;
         $orderInFirst->execute();
     } else {
         $oid = $connection->insert_id;
         $pid = $key;
         $quant = $val;
-        $total += (int) $connection->query("SELECT price FROM Products WHERE pid=$key");
+        
+        $res = $connection->query("SELECT * FROM Products WHERE pid=$key");
+        $total += ((int) ($res->fetch_object()->price))*$quant;
+        
         $orderInOther->execute();
     }
 }
@@ -74,6 +80,9 @@ $cardCCV = $_POST['ccv'];
 $orderInfoIn->execute();
 echo 7;
 
-    
+
 $connection->close();
+
+header("Location: ../confirmation.php?order=".$orderid,TRUE,303);
+
 ?>
