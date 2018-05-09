@@ -3,19 +3,23 @@
     // product.php?productid=2 <- product id same as table
 
 
-    $db = parse_ini_file("resources/dbInfo.ini");
+    include('resources/dbconfig.php');
+    
+//    $host = "matt-smith-v4.ics.uci.edu";
+//    $name = "inf124db010";
+//    $userName = "inf124db010";
+//    $pass = "Zfywje!tni~A";
+        
+    $connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 
-    $connection = new mysqli($db['host'], $db['user'], $db['pass'], $db['name']);
-    /* TEST CONNECTION
+    // TEST CONNECTION
     if ($connection->connect_error) {
         die("Connection failed: " . $connection->connect_error);
-    }
-	echo "Connected successfully";
-    */
+    } 
 
     // Get the requested product
     $product = $_GET[productid];
-    $result = $connection->query("SELECT * FROM products WHERE pid=$product");
+    $result = $connection->query("SELECT * FROM Products WHERE pid=$product");
     $productInfo = mysqli_fetch_array($result); // #productInfo["column name"]
 
     // Begining of Page
@@ -30,7 +34,7 @@
     echo "<img class=zoom src=$productInfo[imagePath]>";
 
     echo "<h3>$productInfo[name]</h3>";
-    echo "<h4>$ $productInfo[price]<br>Color: $productInfo[color] <br>Material: $productInfo[material]</h4><button class=button onclick=window.location.href='../order.php'>Order Now!</button>";
+    echo "<h4>$ $productInfo[price]<br>Color: $productInfo[color] <br>Material: $productInfo[material]</h4><button class=button onclick=window.location.href='order.php'>Order Now!</button>";
     echo "<p>$productInfo[description]</p>";
 
     echo "</body>";

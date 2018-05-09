@@ -1,16 +1,21 @@
 <?php
 
     // CHANGE CONFIG FILE DEPENDING ON MACHINE
-    $db = parse_ini_file("resources/dbInfo.ini");
+    include('resources/dbconfig.php');
+    
+//    $host = "matt-smith-v4.ics.uci.edu";
+//    $name = "inf124db010";
+//    $userName = "inf124db010";
+//    $pass = "Zfywje!tni~A";
+        
+    $connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 
-    $connection = new mysqli($db['host'], $db['user'], $db['pass'], $db['name']);
-    /* TEST CONNECTION
+    // TEST CONNECTION
     if ($connection->connect_error) {
         die("Connection failed: " . $connection->connect_error);
     } 
-	echo "Connected successfully";
-    */
-    $result = $connection->query("SELECT * FROM products");
+
+    $result = $connection->query("SELECT * FROM Products");
     
     // Begining of Page
     echo "<!DOCTYPE html><html>";
@@ -19,8 +24,6 @@
     include "resources/top.php";
     
     // Body
-    echo "<h2>Our Products</h2>";
-
     echo "<table align=center>";
 
     echo "<h1>RICK AND MORTY FAN STORE</h1>";

@@ -1,7 +1,18 @@
 <?php
 
-$db = parse_ini_file("resources/dbInfo.ini");
-$connection = new mysqli($db['host'], $db['user'], $db['pass'], $db['name']);
+    include('resources/dbconfig.php');
+    
+//    $host = "matt-smith-v4.ics.uci.edu";
+//    $name = "inf124db010";
+//    $userName = "inf124db010";
+//    $pass = "Zfywje!tni~A";
+        
+    $connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+
+    // TEST CONNECTION
+    if ($connection->connect_error) {
+        die("Connection failed: " . $connection->connect_error);
+    } 
 
 include "resources/top.php";
 
@@ -9,14 +20,14 @@ include "resources/top.php";
 $orderNum = $_GET[order];
 
 
-$resultOrder = $connection->query("SELECT * FROM orders WHERE oid=$orderNum");
-$resultOrderInfo = $connection->query("SELECT * FROM orderinfo WHERE orderid=$orderNum");
+$resultOrder = $connection->query("SELECT * FROM Orders WHERE oid=$orderNum");
+$resultOrderInfo = $connection->query("SELECT * FROM OrderInfo WHERE orderid=$orderNum");
 
 $infoRow = mysqli_fetch_array($resultOrderInfo);
 
 echo "<h3> Thank you for your order of: </h3>";
 while ($row = mysqli_fetch_array($resultOrder)) {
-    $resultProd = $connection->query("SELECT * FROM products WHERE pid=".$row['productid']);
+    $resultProd = $connection->query("SELECT * FROM Products WHERE pid=".$row['productid']);
     $prodRow = mysqli_fetch_array($resultProd);
     echo "".$row["quantity"]."  -  ".$prodRow['name']."<br>";
 }

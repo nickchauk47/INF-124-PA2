@@ -1,20 +1,24 @@
 <?php
 
     // CHANGE CONFIG FILE DEPENDING ON MACHINE
-    $db = parse_ini_file("resources/dbInfo.ini");
+    include('resources/dbconfig.php');
+    
+//    $host = "matt-smith-v4.ics.uci.edu";
+//    $name = "inf124db010";
+//    $userName = "inf124db010";
+//    $pass = "Zfywje!tni~A";
+        
+    $connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 
-    $connection = new mysqli($db['host'], $db['user'], $db['pass'], $db['name']);
-    /* TEST CONNECTION
+    // TEST CONNECTION
     if ($connection->connect_error) {
         die("Connection failed: " . $connection->connect_error);
-    }
-	echo "Connected successfully";
-    */
-    $result = $connection->query("SELECT * FROM products");
+    } 
 
     // Begining of Page
     echo "<!DOCTYPE html><html>";
 
+    echo "<header>";
     // Top Bar
     include "resources/top.php";
 
@@ -109,6 +113,9 @@ function validateCardNumber(number) {
     //return luhn(number);
 }
 </script>';
+
+$result = $connection->query("SELECT * FROM Products");
+echo "</header>";
 
     echo '
     <form name="orderForm" method="post" action="resources/submitOrder.php">
