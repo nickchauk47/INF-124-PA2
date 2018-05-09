@@ -1,6 +1,6 @@
 # CS 137 Assignment #2
 Members: Yi-Heng Liu and Nicholas Chau
-Website: http://centaurus-7.ics.uci.edu:6460/index.php
+Website: http://centaurus-7.ics.uci.edu:6460/INF124-PA-2/index.php
 
 The website is an e-commerce site where it sells Rick and Morty merchandise and gear. To navigate throughout the website, there is a top bar that links to all the different pages. To go home, just click the top banner that is visible on every page.
 
